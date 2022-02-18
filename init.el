@@ -6,23 +6,28 @@
 (tooltip-mode -1)       ; Disable tooltips
 (set-fringe-mode 10)    ; Breathing room
 
+(global-display-line-numbers-mode 1)
+
 ;; Visual bell
 (setq visual-bell t)
+
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Font
 
 ;; Theme
-(load-theme 'tango-dark)
+(load-theme 'wombat)
 
 ;; Package bug workaround
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
-;; Package sources
+;; package sources
 (require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa". "https://elpa.gnu.org/packages/")))
+(setq package-archives '(("elpa". "https://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")))
 
 (package-initialize)
 (unless package-archive-contents
@@ -36,20 +41,21 @@
 
 ;; Packages
 (use-package ivy
-	     :bind (("C-s" . swiper)
-		    :map ivy-minibuffer-map
-		    ("TAB" . ivy-alt-done)
-		    ("C-l" . ivy-alt-done)
-		    ("C-j" . ivy-next-line)
-		    ("C-k" . ivy-previous-line)
-		    :map ivy-switch-buffer-map
-		    ("C-k" . ivy-previous-line)
-		    ("C-l" . ivy-done)
-		    ("C-d" . ivy-switch-buffer-kill)
-		    :map ivy-reverse-i-search-map
-		    ("C-k" . ivy-previous-line)
-		    ("C-d" . ivy-reverse-i-search-kill))
-	     :config (ivy-mode 1))
+  :diminish
+  :bind (("C-s" . swiper)
+	 :map ivy-minibuffer-map
+	 ("TAB" . ivy-alt-done)
+	 ("C-l" . ivy-alt-done)
+	 ("C-j" . ivy-next-line)
+	 ("C-k" . ivy-previous-line)
+	 :map ivy-switch-buffer-map
+	 ("C-k" . ivy-previous-line)
+	 ("C-l" . ivy-done)
+	 ("C-d" . ivy-switch-buffer-kill)
+	 :map ivy-reverse-i-search-map
+	 ("C-k" . ivy-previous-line)
+	 ("C-d" . ivy-reverse-i-search-kill))
+  :config (ivy-mode 1))
 
 (use-package evil
   :config (evil-mode 1))
@@ -63,7 +69,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ivy-mode t)
- '(package-selected-packages (quote (go-mode evil evil-mode use-package))))
+ '(package-selected-packages (quote (swiper counsel go-mode evil evil-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

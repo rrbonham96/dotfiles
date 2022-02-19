@@ -20,7 +20,7 @@
 (load-theme 'wombat)
 
 ;; Package bug workaround
-;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; package sources
 (require 'package)
@@ -40,6 +40,8 @@
 (setq use-package-always-ensure t)
 
 ;; Packages
+(use-package counsel)
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
@@ -60,7 +62,11 @@
 (use-package evil
   :config (evil-mode 1))
 
+(use-package doom-modeline
+  :config (doom-modeline-mode 1))
+
 (use-package go-mode)
+(use-package hcl-mode)
 
 ;; Customiziation
 (custom-set-variables
@@ -69,7 +75,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ivy-mode t)
- '(package-selected-packages (quote (swiper counsel go-mode evil evil-mode use-package))))
+ '(package-selected-packages
+   (quote
+    (doom-modeline hcl-mode ivy swiper counsel go-mode evil evil-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

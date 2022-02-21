@@ -6,7 +6,14 @@
 (tooltip-mode -1)       ; Disable tooltips
 (set-fringe-mode 10)    ; Breathing room
 
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode 1)	; Line numbers
+(column-number-mode)			; Column numbers
+
+;; Remove line numbers for some specific modes
+(dolist (mode '(org-mode-hook
+		term-mode-hook
+		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Visual bell
 (setq visual-bell t)
@@ -22,7 +29,7 @@
 ;; Package bug workaround
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
-;; package sources
+;; Package sources
 (require 'package)
 
 (setq package-archives '(("elpa". "https://elpa.gnu.org/packages/")
@@ -40,7 +47,7 @@
 (setq use-package-always-ensure t)
 
 ;; Packages
-(use-package counsel)
+(use-package counsel)			; Contains swiper (C-s)
 
 (use-package ivy
   :diminish
@@ -59,11 +66,23 @@
 	 ("C-d" . ivy-reverse-i-search-kill))
   :config (ivy-mode 1))
 
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))		; Show keybindings and help in counsel-M-x
+
 (use-package evil
   :config (evil-mode 1))
 
 (use-package doom-modeline
-  :config (doom-modeline-mode 1))
+  :config (unless (display-graphic-p)	; Window mode is missing some graphics for the modeline...
+	    (doom-modeline-mode 1)))
+
+(use-package rainbow-delimiters
+  :diminish
+  :hook (prog-mode . rainbow-delimiters-mode)) ; For any programming mode, distiguish nested delimiters by color
+
+(use-package which-key
+  :diminish
+  :config (which-key-mode))
 
 (use-package go-mode)
 (use-package hcl-mode)
@@ -77,7 +96,7 @@
  '(ivy-mode t)
  '(package-selected-packages
    (quote
-    (doom-modeline hcl-mode ivy swiper counsel go-mode evil evil-mode use-package))))
+    (ivy-rich which-key rainbow-delimiters doom-modeline hcl-mode ivy swiper counsel go-mode evil evil-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

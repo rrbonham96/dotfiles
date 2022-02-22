@@ -47,7 +47,14 @@
 (setq use-package-always-ensure t)
 
 ;; Packages
-(use-package counsel)			; Contains swiper (C-s)
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+	 ("C-x b" . counsel-ibuffer)
+	 ("C-x C-f" . counsel-find-file)
+	 :map minibuffer-local-map
+	 ("C-r" . counsel-minibuffer-history))
+  :config
+  (setq ivy-initial-inputs-alist nil))
 
 (use-package ivy
   :diminish

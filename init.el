@@ -27,7 +27,8 @@
 (load-theme 'wombat)
 
 ;; Package bug workaround
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(when (version<= emacs-version "26.2")
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 ;; Package sources
 (require 'package)
@@ -48,6 +49,7 @@
 
 ;; Packages
 (use-package counsel
+  :diminish
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
@@ -74,14 +76,17 @@
   :config (ivy-mode 1))
 
 (use-package ivy-rich
+  :diminish
   :init (ivy-rich-mode 1))		; Show keybindings and help in counsel-M-x
 
 (use-package evil
-  :config (evil-mode 1))
+  :init (evil-mode 1))
 
+;; Run M-x all-the-icons-install-fonts if symbols are missing
 (use-package doom-modeline
-  :config (unless (display-graphic-p)	; Window mode is missing some graphics for the modeline...
-	    (doom-modeline-mode 1)))
+  ;; :if (display-graphic-p)	
+  :diminish
+  :init (doom-modeline-mode 1))
 
 (use-package rainbow-delimiters
   :diminish
@@ -89,7 +94,7 @@
 
 (use-package which-key
   :diminish
-  :config (which-key-mode))
+  :init (which-key-mode))
 
 (use-package go-mode)
 (use-package hcl-mode)

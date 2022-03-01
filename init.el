@@ -96,6 +96,12 @@
   :diminish
   :init (which-key-mode))
 
+(use-package hydra)
+
+(use-package projectile)
+
+(use-package magit)
+
 (use-package go-mode)
 (use-package hcl-mode)
 
@@ -108,7 +114,7 @@
  '(ivy-mode t)
  '(package-selected-packages
    (quote
-    (ivy-rich which-key rainbow-delimiters doom-modeline hcl-mode ivy swiper counsel go-mode evil evil-mode use-package))))
+    (hydra magit projectile ivy-rich which-key rainbow-delimiters doom-modeline hcl-mode ivy swiper counsel go-mode evil evil-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
